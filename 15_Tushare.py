@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
-import pandas_datareader.data as web
-import datetime
+
 import tushare as ts
 import pandas as pd
 import akshare as ak
