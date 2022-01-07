@@ -6,7 +6,7 @@ import numpy as np
 if __name__ == '__main__':
 
     # 访问行业板块数据
-    http = urllib3.PoolManager();
+    http = urllib3.PoolManager()
     pages = 4
     conts = []
     for p in range(1, pages + 1):

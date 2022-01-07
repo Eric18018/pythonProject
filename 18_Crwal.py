@@ -38,7 +38,7 @@ class html_cont_analy(object):
 
 class crawer_task(object):
     def __init__(self):
-        self.target_page = target_url_manager('http://guba.eastmoney.com/list,002372,')
+        self.target_page = target_url_manager('http://guba.eastmoney.com/list,usqd,')
         self.downloader = html_cont_analy()
         self.outputer = output_txt()
 
