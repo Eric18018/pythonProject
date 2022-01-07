@@ -52,12 +52,17 @@ class crawer_task(object):
         while self.target_page.has_page_url():
             new_urls = self.target_page.get_new_url()  # 获取每个帖子的URL地址队列
             for url in new_urls:
-                if time_start <= (self.downloader.find_time(url) + datetime.timedelta(days=30)):
-                    self.outputer.out_txt(file_txt, self.downloader.download(url))
-                    true_time = true_time + 1
-                else:
-                    error_time = error_time + 1
-                    if error_time >= 10: break
+                try:
+                    if time_start <= (self.downloader.find_time(url) + datetime.timedelta(days=30)):
+                        self.outputer.out_txt(file_txt, self.downloader.download(url))
+                        true_time = true_time + 1
+                    else:
+                        error_time = error_time + 1
+                        if error_time >= 10: break
+                except Exception as e:
+                    print(url)
+
+
         print('%s has a sum of %d comments' % (time_start, true_time))
         self.outputer.close_txt(file_txt)
         return
@@ -74,12 +79,15 @@ class target_url_manager(object):
     def add_page_urls(self, i):
 
         item_urls = list()
-        html_cont = request.urlopen(self.general_url + 'f_%d.html' % i).read().decode('utf-8')
-        pattern = re.compile('/news\S+html', re.S)
-        news_comment_urls = re.findall(pattern, html_cont)  # 非空白字符N次
-        for comment_url in news_comment_urls:
-            whole_url = parse.urljoin(self.general_url, comment_url)
-            item_urls.append(whole_url)
+        try:
+            html_cont = request.urlopen(self.general_url + 'f_%d.html' % i).read().decode('utf-8')
+            pattern = re.compile('/news\S+html', re.S)
+            news_comment_urls = re.findall(pattern, html_cont)  # 非空白字符N次
+            for comment_url in news_comment_urls:
+                whole_url = parse.urljoin(self.general_url, comment_url)
+                item_urls.append(whole_url)
+        except Exception as e:
+            print(self.general_url)
         return item_urls
 
     def add_pages_urls(self, n):  # 网页数量
@@ -120,6 +128,6 @@ class output_txt(object):
 
 
 if __name__ == '__main__':
-    sumpage = 3
+    sumpage = 1
     obj_crawer = crawer_task()
     obj_crawer.apply_run(sumpage)
