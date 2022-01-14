@@ -25,7 +25,6 @@ def apply_loop(df):
     # apply()方法可将函数应用于dataframe特定行或列，lambda 为匿名函数，末尾包含axis参数，
     # 用来告知Pandas将函数运用于行（axis = 1）或者列（axis = 0）
     df['signal3'] = df.apply(lambda row: (np.sign(row['Close'] - row['Ma20'])), axis=1)
-    print(df.head())
 
 
 # Pandas series 的矢量化方式循环
@@ -77,4 +76,9 @@ if __name__ == '__main__':
     # Numpy arrays的矢量化方式：
     t5 = timeit('test5()', 'from __main__ import test5', number=100)
 
-    print(t1, t2, t3, t4, t5)
+    print(df_stock.head(5))
+    print("for..in循环迭代方式: ", t1)
+    print("iterrows()遍历方式: ", t2)
+    print("apply()方法循环方式: ", t3)
+    print("Pandas series 的矢量化方式: ", t4)
+    print("Numpy arrays的矢量化方式: ", t5)
